@@ -1,0 +1,17 @@
+{
+  "name": "repro-nbb-dynamic-import",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nbb ./script.cljs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nbb": "^0.5.115",
+    "prismjs": "^1.28.0",
+    "term-size": "^3.0.2"
+  }
+}
