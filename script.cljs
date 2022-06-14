@@ -1,22 +1,14 @@
+;; Possible regression of #46
+;; nbb doesn't resolve local node_modules when using the dynamic `js/import`
 (ns script
   (:require [nbb.core :refer [await]]))
 
-;; Possible regression of #46
+;; running (global) nbb `nbb script.cljs`
+;; >> throws Error: Cannot find package 'term-size' imported from /opt/homebrew/lib/node_modules/nbb/lib/nbb_core.js
 
-;; Doesn't work. nbb looks at the global node_modules folder first instead
-;; of the relative one
-;; when running with `nbb script.cljs`.
-
-;; If you run `npm run test` (invokes locally installed nbb) it works.
-
-;; If you remove locally installed nbb `npm uninstall nbb`,
-;; the REPL doesn't work when evaluating the form (tested via Calva)
-;; as it also doesn't resolve from the local node_modules folder
+;; running (local) nbb (see package.json) `npm run nbb script.cljs`
+;; this invokes the locally installed nbb, the "script.cljs" arguments then gets passed to it.
+;; >> e.g. #js {:columns 110, :rows 16}
 
 (def handle-term-size (await (js/import "term-size"))) ; ES-Module
-
-;; This CommonJS Module can be loaded via 'require' just fine with local nbb and global nbb
-(def handle-prismjs (js/require "prismjs/components/")) ; CommonJS Module
-
-(prn (type handle-prismjs)) ;; #object[Function]
 (prn (handle-term-size.default))
